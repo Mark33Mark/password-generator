@@ -9,30 +9,54 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
     </head>
+
     <style>
-        body     { background-color:blanchedalmond; }
+        body        { background-color :snow; }
 
-        main     { font-family      : Arial, Helvetica, sans-serif;
-                    background-color:blanchedalmond; 
-                    display         : flex;
-                    flex-direction  : column;
-                    align-items     : center;
-                    margin          : 2rem;
-                    padding         : 5rem; 
-                    border-style    : dotted;}
+        main        { font-family      : Arial, Helvetica, sans-serif;
+                      background-color :white; 
+                      display          : flex;
+                      flex-direction   : column;
+                      align-items      : center;
+                      margin           : 2rem;
+                      padding          : 1rem 4rem 3rem 4rem; 
+                      border-style     : dotted; }
 
-        figcaption{ font-size       : 0.85rem;
-                    text-align      : center;}
+        figcaption   { font-size       : 0.85rem;
+                       text-align      : center; 
+                       font-weight     : 600;}
 
-        a, p      { text-align      : center;} 
+        h1, h2, 
+        a, p         { text-align      : center;
+                       line-height     : 1.5rem; }
+
+        .empty-block { height          : 3rem; }
+                    
                       
     </style>
+
     <body>
         <main>
-            <h1>Password Generator</h1>
+            <h1>Password generator - different scripting methods</h1>
             <h2>Array or String?</h2>
-            <p>I've quickly put this site together so that you can open the 2 hosted versions of my password generator.</p>
-            <p>Doing it this way avoids creating 2 repositories for what is the same project.</p>
+            <p>I've quickly put this site together so that you have one website to 
+               open either process I've explored with coding the password generator.  Please
+               note that either option you select presents and operates identically.
+            </p>
+            <p>
+               Providing you with 2 options is to demonstrate that I've explored 2 coding 
+               possibilities and then looked at if there was any processor performance 
+               benefits of one over the other.
+            </p>
+            <p>I found that on average, the string method is approximately 8% faster.
+               I wasn't expecting this as you should expect array process to be more
+               efficient.
+            </p>
+            <p>Please refer to the README file in my GitHub repository that has a table
+               summarising the processing speed results.
+             </p>
+
+            <div class="empty-block"></div> 
             
             <a href="develop_array-based/index.html" target="_blank"> 
                 <img src="img/array.jpg" 
@@ -41,12 +65,13 @@
                 />
             </a>
             <figcaption>Array method to create characters to generate a password.</figcaption>
-            <br />
-
+            
+            <div class="empty-block"></div>
+            
             <a href="develop_string-based/index.html" target="_blank"> 
             <img src="img/string.jpg" 
                 alt="string version of the password generator." 
-                width = "40%"
+                width = "22%"
                 />
             </a>
             <figcaption>String method to create characters to generate a password.</figcaption>

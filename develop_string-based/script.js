@@ -38,7 +38,7 @@ let goodbyeMessage = "Thanks for visiting";  // called on a few times, better de
 
 /*================================================================================ */
 
-function generatePassword(){
+function generatePassword() {
 
   let passwordLength = prompt("Password Criteria    question 1 of 6\n" +
                               "--------------------------------------\n" +
@@ -48,27 +48,25 @@ function generatePassword(){
                               "Please type in the password length you require, I accept " +
                               "any number between 8 and 128.\n\n" +
                               "What length password would you like today?\n",8); 
-  if (passwordLength === null)
-    {
+
+  if (passwordLength === null) {
       alert(goodbyeMessage); 
       return null;
     }
 
-  if ((passwordLength<8)||(passwordLength>128))
-    {
+  if ((passwordLength < 8)||(passwordLength > 128)){
+
       let incorrectUserInput = confirm("There's a problem.\n\nYou can select a minimum " +
                                        "of 8 characters or any other number up to a " + 
                                        "maximum of 128 characters and less than or " +
                                        "equal to 128.\n\n  Try again?");
         
-      if (!incorrectUserInput)  /* I like using shorthand for true / false 
-                                   instead of: if(incorrectUserInput = false) 
-                                */
-        {
+      if (!incorrectUserInput) { /* I like using shorthand for true / false 
+                                    instead of: if(incorrectUserInput = false) 
+                                  */
           alert(goodbyeMessage); 
           return null;
-        } else
-        {
+        } else {
           return null;
         } 
     }
@@ -103,34 +101,21 @@ function generatePassword(){
                               "they are:\n\n@%\u005C+/'!#$^?:,(){}[]~`-_.\n\n" +
                               "Select <OK> for yes or <Cancel> for no.");
   
-  /*  Changed the boolean to a yes or no as I think 
+  /*  Boolean changed to a yes or no as I think 
       it is more meaningful to a user for this type 
-      of information rather than true or false.  
-      I couldn't find a more concise way of doing
-      this.
+      of information instead of true or false.  
+      I just learnt about the Condition Operator ?
+      from my literature review.  Giving it a run here.
   */
-  if(lowerCase){
-    lowerCase="yes";
-  }else
-  {lowerCase="no";}
 
-  if(upperCase){
-    upperCase="yes";
-  }else
-  {upperCase="no";}
 
-  if(numerical){
-    numerical="yes";
-  }else
-  {numerical="no";}
+  (lowerCase)   ? lowerCase   = "yes" : lowerCase = "no";
+  (upperCase)   ? upperCase   = "yes" : upperCase = "no";
+  (numerical)   ? numerical   = "yes" : numerical = "no";
+  (specialChar) ? specialChar = "yes" : specialChar = "no";
 
-  if(specialChar){
-    specialChar="yes";
-  }else
-  {specialChar="no";}
-
-  if((lowerCase==="no")&&(upperCase==="no")&&(numerical==="no")&&(specialChar==="no"))
-  {
+  if((lowerCase==="no")&&(upperCase==="no")&&(numerical==="no")&&(specialChar==="no")) {
+    
     let nothingSelected = confirm("Mmmmmmmmmm \n " +
                                   "----------------------\n" +
                                   "It seems you've not selected any option for me to generate " +
@@ -142,12 +127,10 @@ function generatePassword(){
                                   `  special characters     =  ${specialChar}\n\n` +
                                   "Try again?\n")
 
-    if (!nothingSelected)
-      {
+    if (!nothingSelected) {
         alert(goodbyeMessage); 
         return null;
-      } else 
-      {
+      } else {
         return null;
       }                                   
   }
@@ -157,76 +140,69 @@ function generatePassword(){
      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals  
 */
 
-  let selectionSummary=confirm("Password Criteria    question 6 of 6\n" +
-                                "--------------------------------------\n" +
-                                "Please confirm your selection is as follows:\n\n" +
-                                `  length of password  =  ${passwordLength} characters\n` +
-                                `  lower case                =  ${lowerCase}\n` + 
-                                `  UPPER case              =  ${upperCase.valueOf()}\n` +
-                                `  numbers                   =  ${numerical}\n` +
-                                `  special characters     =  ${specialChar}\n\n` +
-                                "Select <Cancel> if you want to change any of the above.")
+  let selectionSummary = confirm("Password Criteria    question 6 of 6\n" +
+                                 "--------------------------------------\n" +
+                                 "Please confirm your selection is as follows:\n\n" +
+                                 `  length of password  =  ${passwordLength} characters\n` +
+                                 `  lower case                =  ${lowerCase}\n` + 
+                                 `  UPPER case              =  ${upperCase.valueOf()}\n` +
+                                 `  numbers                   =  ${numerical}\n` +
+                                 `  special characters     =  ${specialChar}\n\n` +
+                                 "Select <Cancel> if you want to change any of the above.")
     
-  if (!selectionSummary)
-    {
+  if (!selectionSummary) {
       alert(goodbyeMessage); 
       return null;
     }
 
-  /* 
-     Build the character list based on the
-     user's selected criteria.
-  */
+  // Build the character list based on the user's selected criteria.
+
   let characters = "";   
   let generatedPassword = "";
 
-  if(lowerCase==="yes")
-      {
-        characters = LOWERCASE_CHARACTERS;
-      };
-  if (upperCase==="yes")
-      {
-        characters += UPPERCASE_CHARACTERS; 
-      };
-  if (numerical==="yes")
-      {
-        characters += NUMERAL_CHARACTERS; 
-      };
-  if (specialChar==="yes")
-      {
-        characters += SPECIAL_CHARACTERS; 
-      };
+  if(lowerCase === "yes")    { characters = LOWERCASE_CHARACTERS; }
+  if (upperCase === "yes")   { characters += UPPERCASE_CHARACTERS; }
+  if (numerical === "yes")   { characters += NUMERAL_CHARACTERS; }
+  if (specialChar === "yes") { characters += SPECIAL_CHARACTERS; }
   
 /* console.time("String Method");    <== here to look at performance difference between 
                                          string and array methods.  String is faster!
 */
                                       
-  for (let i = 0; i < passwordLength; i++) 
-  {
+  for (let i = 0; i < passwordLength; i++) {
     let charLength = characters.length; 
-
     let randomGenerator = Math.floor(Math.random() * (charLength + 1 - 8)) + 8;  
-                                                                  /* to properly generate a random integer 
-                                                                     in a set interval where the max is included
-                                                                     then this formula is used: 
-                                                                     Math.floor(Math.random() * (max + 1 - min)) + min)
-                                                                     https://www.w3schools.com/JS/js_random.asp
-                                                                   */
 
-    /* password is generated here.  The characters list is a concatenation of
-        all options selected by the user.
-    */
+ /* From my literature review I learnt how to generate a 
+    random integer in a set interval where the max is included
+    then this formula is used: 
+
+    Math.floor(Math.random() * (max + 1 - min)) + min)
+    
+    https://www.w3schools.com/JS/js_random.asp
+
+    Examples of other password generators I found online all excluded the max
+    which I think is an error as the processor will not include all possible 
+    characters in the random selection process.
+ */
+
+ /* generatedPassword is 'generating' here.  The 'characters' list is the concatenation 
+    of all options selected by the user which took place in the series of if statements
+    preceding this for loop.
+ */
 
     generatedPassword += characters.charAt(randomGenerator);
       
   }
+
   return generatedPassword;
 };
 
 /*================================================================================ */
 
 function writePassword() {      // Write password to the element ID: #password
-  let password = generatePassword();   
+  let password = generatePassword();  
+
   passwordText.value = password;
 /*  console.timeEnd("String Method");  <== here to look at performance difference between 
                                            string and array methods.  String is faster by 
@@ -238,24 +214,24 @@ function writePassword() {      // Write password to the element ID: #password
 
 /*================================================================================ */
 
-/* I realise this assessment does not request a copy function, however
-   I think it makes this application a lot more user
-   friendly.
+/* 
+   Noting were told this assessment does not require us to modify the user interface, 
+   however I decided to have a go and add to add a copy option to make the app more
+   user friendly.
 */
-function copyPasswordToClipboard(){
+
+function copyPasswordToClipboard() {
   passwordText.select();
-  passwordText.setSelectionRange(0, 99999); /* For mobile devices */
+  passwordText.setSelectionRange(0, 99999); // For mobile devices - not working on my device.
 
-  /* Copy the text inside the text field */
   navigator.clipboard.writeText(passwordText.value);
-
-  /* Alert the copied text */
   alert("Copied the password: \n\n" + passwordText.value + "\n\nto your clipboard.");
 
   /* document.execCommand("copy");    <== flagged as deprecated, however if you have a look
                                           at https://www.w3schools.com/jsref/met_document_execcommand.asp 
                                           the issue is more that it is 'experimental' and could
-                                          change.  Found alternative method on www.w3schools.com
+                                          change.  Found alternative method on www.w3schools.com :
+                                          navigator.clipboard.writeText(passwordText.value)
                                         */
 }
 
