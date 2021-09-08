@@ -22,14 +22,9 @@
     immediately. 
 */
 
-const LOWERCASE_CHARACTERS = constructCharCodeArray(65, 90);
-const UPPERCASE_CHARACTERS = constructCharCodeArray(97, 122);
+const LOWERCASE_CHARACTERS = constructCharCodeArray(97, 122);
+const UPPERCASE_CHARACTERS = constructCharCodeArray(65, 90);
 const NUMERAL_CHARACTERS   = constructCharCodeArray(48, 57);
-
-//split special characters array into 2 for readability.
-const SPECIAL_CHARACTERS_1  = ["33","35","36","37","39","40","41","43","44","45","46","47"];
-const SPECIAL_CHARACTERS_2  = ["58","63","64","91","92","93","94","95","96","123","125","126"];  
-const SPECIAL_CHARACTERS    = SPECIAL_CHARACTERS_1.concat(SPECIAL_CHARACTERS_2);
 
 /*
     I decided on using Oracle's Identity Manager Connector Guide for Microsoft Active 
@@ -38,6 +33,10 @@ const SPECIAL_CHARACTERS    = SPECIAL_CHARACTERS_1.concat(SPECIAL_CHARACTERS_2);
     It has 24 special characters compared against OWASP which has 33 possible special 
     characters.
 */ 
+
+const SPECIAL_CHARACTERS  = ["33","35","36","37","39","40","41","43","44","45","46","47",
+                              "58","63","64","91","92","93","94","95","96","123","125","126",];  
+
 
 const generateBtn = document.querySelector("#bGenerate");
 const passwordText = document.querySelector("#password");
@@ -58,7 +57,7 @@ function generatePassword() {
                               "--------------------------------------\n" +
                               "I can generate a password for you, anywhere between " + 
                               "8 characters and up to 128 characters in length.\n\n"+
-                              "My default is a minimum 8 character password.\n\n"+
+                              "My default is the minimum 8 character password.\n\n"+
                               "Please type in the password length you require, I accept " +
                               "any number between 8 and 128.\n\n" +
                               "What length password would you like today?\n",8); 
@@ -68,7 +67,7 @@ function generatePassword() {
       return null;
     }
 
-  if ((passwordLength < 8)||(passwordLength > 128)) {
+  if (( passwordLength < 8 )||( passwordLength > 128 )) {
 
       let incorrectUserInput = confirm("There's a problem.\n\n" +
                                        "You can select a minimum of 8 characters " +
@@ -76,44 +75,43 @@ function generatePassword() {
                                        "characters and less than or equal to 128.\n\n" +
                                        "Try again?");
         
-      if (!incorrectUserInput) { /* I like using shorthand for true / false 
-                                    instead of: if(incorrectUserInput = false) 
-                                 */
-          alert(goodbyeMessage); 
+      if ( !incorrectUserInput ) { 
+
+          alert( goodbyeMessage ); 
           return null;
         } else {
           return null;
         } 
-    }
+      }
     
   let lowerCase =     confirm("Password Criteria    question 2 of 6\n" +
                               "--------------------------------------\n" +
-                              "Would you like lower case letters in your " +
-                              "password?\n\nSelect <OK> "+
+                              "Would you like your password to have:\n\n" +
+                              "lower case letters?\n\nSelect <OK> "+
                               "for yes or <Cancel> for no.");
 
 
   let upperCase =     confirm("Password Criteria    question 3 of 6\n" +
                               "--------------------------------------\n" +
-                              "Would you like UPPER case " + 
-                              "letters in your password?\n\nSelect <OK> "+
+                              "Would you like your password to have:\n\n" + 
+                              "UPPER case letters?\n\n Select <OK> "+
                               "for yes or <Cancel> for no.");
 
   
   let numerical =     confirm("Password Criteria    question 4 of 6\n" +
                               "--------------------------------------\n" +
-                              "Would you like numbers " +
-                              "included in your password?\n\nSelect <OK> "+
+                              "Would you like your password to have:\n\n " +
+                              "Numbers?\n\nSelect <OK> "+
                               "for yes or <Cancel> for no.");
 
 
   let specialChar =   confirm("Password Criteria    question 5 of 6\n" +
                               "--------------------------------------\n" +
-                              "Finally, how about special characters?\n\n " +
-                              "Note: Special characters is recommended " +
-                              "to improve the security of your password.\n\n" +
-                              "I work with a menu of 24 special characters, " +
-                              "they are:\n\n@%\u005C+/'!#$^?:,(){}[]~`-_.\n\n" +
+                              "Finally, how about:\n\nSpecial characters?\n\n" +
+                              "Recommended for a more secure password.  " +
+                              "I have 24 special characters to select from, " +
+                              "they are:\n @ % \u005C + / ' ! # $ ^ ? : , ( ) { " +
+                              "} [ ] ~ ` - _ . \n\n" +
                               "Select <OK> for yes or <Cancel> for no.");
   
   /*  Boolean changed to a yes or no as I think 
@@ -170,11 +168,17 @@ function generatePassword() {
     }
 
   // Build the character list based on the user's selected criteria.
+  let charCodes = [];
   
-  if (lowerCase === "yes")   { charCodes = LOWERCASE_CHARACTERS; }
-  if (upperCase === "yes")   { charCodes = charCodes.concat(UPPERCASE_CHARACTERS); }
-  if (numerical === "yes")   { charCodes = charCodes.concat(NUMERAL_CHARACTERS); }
-  if (specialChar === "yes") { charCodes = charCodes.concat(SPECIAL_CHARACTERS); }
+  if ( lowerCase === "yes" ) { charCodes.push(...LOWERCASE_CHARACTERS); }
+
+  if ( upperCase === "yes" ) { charCodes.push(...UPPERCASE_CHARACTERS); }
+
+  if ( numerical === "yes" ) { charCodes.push(...NUMERAL_CHARACTERS); }
+
+  if ( specialChar === "yes" ) { charCodes.push(...SPECIAL_CHARACTERS); }
+
+  // console.log("Character's in charCode array = " + charCodes);
   
  /* console.time("Array Method"); /* <== left here to look at performance difference between 
                                   string and array methods.  Found string is on average
@@ -183,24 +187,23 @@ function generatePassword() {
 
   let passwordCharacters = [];
    
-  for (let i = 0; i < passwordLength; i++) {
+  for (let i = 1; i <= passwordLength; i++) {
 
-    /* From my literature review I learnt how to generate a 
-       random integer in a set interval where the max is included
-       then this formula is used: 
-
-       Math.floor(Math.random() * (max + 1 - min)) + min)
-       
-       https://www.w3schools.com/JS/js_random.asp
-
-       Examples of other password generators I found online all excluded the max
-       which I think is an error as the processor will not include all possible 
-       characters in the random selection process.
+    /* We want the full selection of the charCodes 
+       array to be available for random selection so there shouldn't
+       be any modifiers for min or max.  
+       In addition as the array reference needs to be an array index,
+       that is between 0 and array.length-1, I've now confirmed
+       the following formula works in accessing the full scope 
+       charCodes array passed to it.
     */
 
-    let randomGenerator = Math.floor(Math.random() * (charCodes.length + 1 - 8)) + 8;  
+    let randomGenerator = Math.floor(Math.random() * (charCodes.length));  
     const characterCode = charCodes[randomGenerator];
 
+    // console.log(characterCode);
+    // console.log(String.fromCharCode(characterCode));
+    
     passwordCharacters.push(String.fromCharCode(characterCode));
   }
 
@@ -216,7 +219,7 @@ function generatePassword() {
 */
 
 /**
-* Returns array of ASCII Character Codes.
+* Returns array of ASCII Character Codes when script is loaded.
 *
 * @param {number} low the lower code reference of the range passed to this function.
 * @param {number} high the higher code reference of the range passed to this function.
@@ -227,10 +230,12 @@ function constructCharCodeArray(low, high) {
   const charCodeArray = []
 
   for (let i = low; i <= high; i++) {
+
     charCodeArray.push(i)  
   }
 
   return charCodeArray
+  
 }
 
 /*================================================================================ */
@@ -241,7 +246,7 @@ function writePassword() {    // Write password to the element ID: #password
   passwordText.value = password;
 /*  console.timeEnd("Array Method"); /* <== left this here to look at performance difference between 
                                             string and array methods.  Found string is on average
-                                            8% faster.  Surprised me as array is meant to be more
+                                            11% faster.  Surprised me as array is meant to be more
                                             efficient for the processing.
 */
 

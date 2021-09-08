@@ -44,62 +44,58 @@ function generatePassword() {
                               "--------------------------------------\n" +
                               "I can generate a password for you, anywhere between " + 
                               "8 characters and up to 128 characters in length.\n\n"+
-                              "My default is a minimum 8 character password.\n\n"+
+                              "My default is the minimum 8 character password.\n\n"+
                               "Please type in the password length you require, I accept " +
                               "any number between 8 and 128.\n\n" +
                               "What length password would you like today?\n",8); 
 
-  if (passwordLength === null) {
-      alert(goodbyeMessage); 
+  if ( passwordLength === null ) {
+      alert( goodbyeMessage ); 
       return null;
     }
 
-  if ((passwordLength < 8)||(passwordLength > 128)){
+  if (( passwordLength < 8 )||( passwordLength > 128 )){
 
       let incorrectUserInput = confirm("There's a problem.\n\nYou can select a minimum " +
                                        "of 8 characters or any other number up to a " + 
                                        "maximum of 128 characters and less than or " +
                                        "equal to 128.\n\n  Try again?");
         
-      if (!incorrectUserInput) { /* I like using shorthand for true / false 
-                                    instead of: if(incorrectUserInput = false) 
-                                  */
+      if ( !incorrectUserInput ) { 
           alert(goodbyeMessage); 
           return null;
         } else {
           return null;
         } 
-    }
+      }
     
-  let lowerCase =     confirm("Password Criteria    question 2 of 6\n" +
-                              "--------------------------------------\n" +
-                              "Would you like lower case letters in your " +
-                              "password?\n\nSelect <OK> "+
-                              "for yes or <Cancel> for no.");
+      let lowerCase =     confirm("Password Criteria    question 2 of 6\n" +
+                                  "--------------------------------------\n" +
+                                  "Would you like your password to have:\n\n" +
+                                  "lower case letters?\n\nSelect <OK> "+
+                                  "for yes or <Cancel> for no.");
 
 
-  let upperCase =     confirm("Password Criteria    question 3 of 6\n" +
-                              "--------------------------------------\n" +
-                              "Would you like UPPER case " + 
-                              "letters in your password?\n\nSelect <OK> "+
-                              "for yes or <Cancel> for no.");
+      let upperCase =     confirm("Password Criteria    question 3 of 6\n" +
+                                  "--------------------------------------\n" +
+                                  "Would you like your password to have:\n\n" + 
+                                  "UPPER case letters?\n\n Select <OK> "+
+                                  "for yes or <Cancel> for no.");
 
-  
-  let numerical =     confirm("Password Criteria    question 4 of 6\n" +
-                              "--------------------------------------\n" +
-                              "Would you like numbers " +
-                              "included in your password?\n\nSelect <OK> "+
-                              "for yes or <Cancel> for no.");
+      let numerical =     confirm("Password Criteria    question 4 of 6\n" +
+                                  "--------------------------------------\n" +
+                                  "Would you like your password to have:\n\n " +
+                                  "Numbers?\n\nSelect <OK> "+
+                                  "for yes or <Cancel> for no.");
 
-
-  let specialChar =   confirm("Password Criteria    question 5 of 6\n" +
-                              "--------------------------------------\n" +
-                              "Finally, how about special characters?\n\n " +
-                              "Note: Special characters is recommended " +
-                              "to improve the security of your password.\n\n" +
-                              "I work with a menu of 24 special characters, " +
-                              "they are:\n\n@%\u005C+/'!#$^?:,(){}[]~`-_.\n\n" +
-                              "Select <OK> for yes or <Cancel> for no.");
+      let specialChar =   confirm("Password Criteria    question 5 of 6\n" +
+                                  "--------------------------------------\n" +
+                                  "Finally, how about:\n\nSpecial characters?\n\n" +
+                                  "Recommended for a more secure password.  " +
+                                  "I have 24 special characters to select from, " +
+                                  "they are:\n @ % \u005C + / ' ! # $ ^ ? : , ( ) { "+
+                                  "} [ ] ~ ` - _ . \n\n" +
+                                  "Select <OK> for yes or <Cancel> for no.");
   
   /*  Boolean changed to a yes or no as I think 
       it is more meaningful to a user for this type 
@@ -107,7 +103,6 @@ function generatePassword() {
       I just learnt about the Condition Operator ?
       from my literature review.  Giving it a run here.
   */
-
 
   (lowerCase)   ? lowerCase   = "yes" : lowerCase = "no";
   (upperCase)   ? upperCase   = "yes" : upperCase = "no";
@@ -168,28 +163,28 @@ function generatePassword() {
 /* console.time("String Method");    <== here to look at performance difference between 
                                          string and array methods.  String is faster!
 */
-                                      
-  for (let i = 0; i < passwordLength; i++) {
-    let charLength = characters.length; 
-    let randomGenerator = Math.floor(Math.random() * (charLength + 1 - 8)) + 8;  
 
- /* From my literature review I learnt how to generate a 
-    random integer in a set interval where the max is included
-    then this formula is used: 
+    /* We want the full selection of the 'characters 
+       string' to be available for random selection so there shouldn't
+       be any modifiers for min or max.  
+       I've confirmed the following formula works in accessing 
+       the full scope of the 'characters string' passed to it as
+       random number needs to be an integer between 0 and 
+       (characters.length-1).
+    */
+      //  console.log("No. of characters for random selection = " + characters.length);
+      //  console.log("Characters = "+characters);
 
-    Math.floor(Math.random() * (max + 1 - min)) + min)
+  for (let i = 1; i <= passwordLength; i++) {
     
-    https://www.w3schools.com/JS/js_random.asp
+    let randomGenerator = Math.floor(Math.random() * characters.length );  
 
-    Examples of other password generators I found online all excluded the max
-    which I think is an error as the processor will not include all possible 
-    characters in the random selection process.
- */
-
- /* generatedPassword is 'generating' here.  The 'characters' list is the concatenation 
+ /* generatedPassword is 'generating' here. The 'characters' list is the concatenation 
     of all options selected by the user which took place in the series of if statements
     preceding this for loop.
  */
+    // console.log("randomGenerator variable = " + randomGenerator);  
+    // console.log(characters.charAt(randomGenerator));
 
     generatedPassword += characters.charAt(randomGenerator);
       
@@ -204,11 +199,12 @@ function writePassword() {      // Write password to the element ID: #password
   let password = generatePassword();  
 
   passwordText.value = password;
+
 /*  console.timeEnd("String Method");  <== here to look at performance difference between 
                                            string and array methods.  String is faster by 
-                                           an average of 8%!
-
+                                           an average of 11%!
 */
+
   return;
 }
 
